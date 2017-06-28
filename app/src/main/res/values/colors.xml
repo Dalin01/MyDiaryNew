@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#5e7974</color>
+    <color name="colorPrimaryDark">#345953</color>
+    <color name="colorAccent">#0ded3e</color>
+    <color name="float_background">#05a127</color>
+    <color name="button_trans">#10000000</color>
+    <color name="uncategory">#05a127</color>
+    <color name="work">#49ca65</color>
+    <color name="personal">#3a3d3b</color>
+    <color name="study">#c9b6ea</color>
+    <color name="research">#8f05a1</color>
+    <color name="school">#397847</color>
+    <color name="family">#f305a127</color>
+</resources>
