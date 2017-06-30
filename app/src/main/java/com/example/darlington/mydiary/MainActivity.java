@@ -99,6 +99,11 @@ public class MainActivity extends AppCompatActivity {
         EditText pin = (EditText) findViewById(R.id.pin);
         pin.setText("");
     }
+
+    public void forgotPin(View view){
+        Intent i = new Intent(this, ForgotPassword.class);
+        startActivity(i);
+    }
 }
 
 

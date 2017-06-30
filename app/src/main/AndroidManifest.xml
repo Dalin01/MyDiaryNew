@@ -41,6 +41,7 @@
         <activity
             android:name=".Message"
             android:parentActivityName=".Inbox">
+
             <!-- The meta-data element is needed for versions lower than 4.1 -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -49,10 +50,23 @@
         <activity
             android:name=".Home"
             android:parentActivityName=".Inbox">
+
             <!-- The meta-data element is needed for versions lower than 4.1 -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.darlington.mydiary.Inbox" />
+        </activity>
+        <activity
+            android:name=".ForgotPassword"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <service
+            android:name=".FloatingViewService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <activity android:name=".LayoutFloatingActivity" />
+        <activity android:name=".EditMessage">
         </activity>
     </application>
 

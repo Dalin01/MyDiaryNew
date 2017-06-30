@@ -11,14 +11,16 @@ public class MyInbox {
     private String location;
     private String date;
     private String category;
+    private int id;
 
-    public MyInbox(String subject, String location, String message, String date, String category)
+    public MyInbox(String subject, String location, String message, String date, String category, int id)
     {
         this.Subject = subject;
         this.message = message;
         this.date = date;
         this.location = location;
         this.category = category;
+        this.id = id;
     }
 
     public String getSubject()
@@ -39,4 +41,9 @@ public class MyInbox {
     public String getLocation() {return location; }
 
     public String getCategory() {return category; }
+
+    public int getId()
+    {
+        return id;
+    }
 }

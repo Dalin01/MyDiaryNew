@@ -3,8 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.darlington.mydiary.MainActivity">
     <item
-        android:id="@+id/chat_headd"
+    android:id="@+id/edit"
+    android:orderInCategory="100"
+    android:title="Edit"
+    app:showAsAction="never" />
+    <item
+        android:id="@+id/delete"
         android:orderInCategory="100"
-        android:title="Chat Head"
+        android:title="Delete"
         app:showAsAction="never" />
 </menu>

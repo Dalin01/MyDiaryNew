@@ -211,7 +211,7 @@
             android:layout_weight="1"
             android:background="@drawable/my_button"
             android:fontFamily="serif"
-            android:onClick="forgot_pin"
+            android:onClick="forgotPin"
             android:text="Forgot Pin?"
             android:textColor="@android:color/white" />
 
