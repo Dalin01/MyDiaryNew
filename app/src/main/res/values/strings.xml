@@ -13,4 +13,6 @@
         <item>Study</item>
         <item>Research</item>
     </string-array>
+    <string name="subject"><b><u>Subject: </u></b></string>
+    <string name="message"><b><u>Message:</u></b></string>
 </resources>

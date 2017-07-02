@@ -21,7 +21,7 @@ public class Home extends AppCompatActivity {
     public String message;
     public String category;
     public String date_time;
-
+    public String message_to_share;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +46,9 @@ public class Home extends AppCompatActivity {
         mess.setText(message);
         cat.setText(category);
         date.setText(date_time);
+
+        message_to_share = getString(R.string.subject) + subject + "\n\n" + getString(R.string.message) +"\n" + message;
+
     }
 
     @Override
@@ -64,6 +67,15 @@ public class Home extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.edit) {
             edit();
+        }
+        else if(id == R.id.share){
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, message_to_share);
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            }
+            return true;
         }
         else if(id == R.id.delete){
             DialogFragment fragment = new DeleteCurrentDialog();
