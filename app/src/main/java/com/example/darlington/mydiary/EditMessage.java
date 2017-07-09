@@ -2,7 +2,10 @@ package com.example.darlington.mydiary;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.darlington.mydiary.diary.DiaryContract;
+import com.example.darlington.mydiary.diary.DiaryHelper;
 import com.example.darlington.mydiary.diary.DiaryInboxHelper;
 
 import java.text.DateFormat;
@@ -43,9 +47,57 @@ public class EditMessage extends AppCompatActivity implements AdapterView.OnItem
     EmojIconActions emojIcon2;
     int id;
 
+    String colour;
+    String font;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        {
+            DiaryHelper mDbHelper1 = new DiaryHelper(this);
+            SQLiteDatabase db1 = mDbHelper1.getReadableDatabase();
+
+            Cursor c = db1.query(
+                    DiaryContract.DiaryEntry.TABLE_NAME,
+                    null,                               // The columns to return
+                    null,                                // The columns for the WHERE clause
+                    null,                            // The values for the WHERE clause
+                    null,                                     // don't group the rows
+                    null,                                     // don't filter by row groups
+                    null
+            );
+
+            try {
+                c.moveToFirst();
+                colour = c.getString(c.getColumnIndexOrThrow(DiaryContract.DiaryEntry.COLUMN_COLOUR));
+            }
+            finally {
+                c.close();
+            }
+        }
+        if(colour.equals("colour 1")){
+            setTheme(R.style.ThemeOne);
+            if (Build.VERSION.SDK_INT >= 21) {
+                getWindow().setNavigationBarColor(getResources().getColor(R.color.theme_one));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.theme_one));
+            }
+        }
+        else if(colour.equals("colour 2")){
+            setTheme(R.style.ThemeTwo);
+            if (Build.VERSION.SDK_INT >= 21) {
+                getWindow().setNavigationBarColor(getResources().getColor(R.color.theme_two));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.theme_two));
+            }
+        }
+        else if(colour.equals("colour 3")){
+            setTheme(R.style.ThemeThree);
+            if (Build.VERSION.SDK_INT >= 21) {
+                getWindow().setNavigationBarColor(getResources().getColor(R.color.theme_three));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.theme_three));
+            }
+        }
+
         setContentView(R.layout.activity_message);
 
         Spinner spinner = (Spinner) findViewById(R.id.category);
@@ -134,6 +186,41 @@ public class EditMessage extends AppCompatActivity implements AdapterView.OnItem
         view_subject.setText(subject);
         view_message.setText(message);
         view_location.setText(location);
+
+        {
+            DiaryHelper mDbHelper1 = new DiaryHelper(this);
+            SQLiteDatabase db1 = mDbHelper1.getReadableDatabase();
+
+            String[] projection1 = {
+                    DiaryContract.DiaryEntry.COLUMN_FONT,
+            };
+
+            Cursor c = db1.query(
+                    DiaryContract.DiaryEntry.TABLE_NAME,
+                    null,                               // The columns to return
+                    null,                                // The columns for the WHERE clause
+                    null,                            // The values for the WHERE clause
+                    null,                                     // don't group the rows
+                    null,                                     // don't filter by row groups
+                    null
+            );
+
+            try {
+                c.moveToFirst();
+                font = c.getString(c.getColumnIndexOrThrow(DiaryContract.DiaryEntry.COLUMN_FONT));
+                int text_size = c.getInt(c.getColumnIndexOrThrow(DiaryContract.DiaryEntry.COLUMN_FONT_SIZE));
+                Typeface typeface = Typeface.createFromAsset(getAssets(), font);
+                view_subject.setTypeface(typeface);
+                view_subject.setTextSize(text_size);
+                view_location.setTypeface(typeface);
+                view_location.setTextSize(text_size);
+                view_message.setTypeface(typeface);
+                view_message.setTextSize(text_size);
+            }
+            finally {
+                c.close();
+            }
+        }
 
     }
 

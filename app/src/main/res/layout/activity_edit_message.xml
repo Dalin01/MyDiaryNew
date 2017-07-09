@@ -26,7 +26,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:padding="4dp"
-                android:src="@drawable/download" />
+                android:src="@drawable/smiley" />
 
             <hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
                 android:id="@+id/subject"
@@ -34,8 +34,7 @@
                 android:layout_height="match_parent"
                 emojicon:emojiconSize="28sp"
                 android:hint="Type subject"
-                android:fontFamily="serif"
-                android:background="@drawable/edit_text_background"/>
+                android:fontFamily="serif"/>
 
         </LinearLayout>
 
@@ -51,7 +50,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:padding="4dp"
-                android:src="@drawable/download" />
+                android:src="@drawable/smiley" />
 
             <hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
                 android:id="@+id/location"
@@ -59,8 +58,7 @@
                 android:layout_height="match_parent"
                 emojicon:emojiconSize="28sp"
                 android:fontFamily="serif"
-                android:hint="Where are you?"
-                android:background="@drawable/edit_text_background"/>
+                android:hint="Where are you?"/>
 
 
         </LinearLayout>
@@ -83,7 +81,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:padding="4dp"
-                android:src="@drawable/download" />
+                android:src="@drawable/smiley" />
 
             <ScrollView
                 android:layout_width="0dp"

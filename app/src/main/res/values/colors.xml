@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#4876FF</color>
-    <color name="colorPrimaryDark">#1414fb</color>
-    <color name="colorAccent">#4876FF</color>
+    <color name="colorPrimary">#00c6ff</color>
+    <color name="colorPrimaryDark">#0072ff</color>
+    <color name="colorAccent">#0072ff</color>
     <color name="float_background">#05a127</color>
     <color name="button_trans">#10000000</color>
     <color name="uncategory">#05a127</color>
@@ -12,4 +12,8 @@
     <color name="research">#8f05a1</color>
     <color name="school">#397847</color>
     <color name="family">#f305a127</color>
+
+    <color name="theme_one">#691A99</color>
+    <color name="theme_two">#008975</color>
+    <color name="theme_three">#F50057</color>
 </resources>

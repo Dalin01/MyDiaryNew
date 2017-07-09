@@ -1,7 +1,10 @@
 package com.example.darlington.mydiary;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.darlington.mydiary.diary.DiaryContract;
+import com.example.darlington.mydiary.diary.DiaryHelper;
 import com.example.darlington.mydiary.diary.DiaryInboxHelper;
 
 public class Home extends AppCompatActivity {
@@ -22,9 +26,56 @@ public class Home extends AppCompatActivity {
     public String category;
     public String date_time;
     public String message_to_share;
+    public String font;
+    String colour;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        {
+            DiaryHelper mDbHelper1 = new DiaryHelper(this);
+            SQLiteDatabase db1 = mDbHelper1.getReadableDatabase();
+
+            Cursor c = db1.query(
+                    DiaryContract.DiaryEntry.TABLE_NAME,
+                    null,                               // The columns to return
+                    null,                                // The columns for the WHERE clause
+                    null,                            // The values for the WHERE clause
+                    null,                                     // don't group the rows
+                    null,                                     // don't filter by row groups
+                    null
+            );
+
+            try {
+                c.moveToFirst();
+                colour = c.getString(c.getColumnIndexOrThrow(DiaryContract.DiaryEntry.COLUMN_COLOUR));
+            }
+            finally {
+                c.close();
+            }
+        }
+        if(colour.equals("colour 1")){
+            setTheme(R.style.ThemeOne);
+            if (Build.VERSION.SDK_INT >= 21) {
+                getWindow().setNavigationBarColor(getResources().getColor(R.color.theme_one));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.theme_one));
+            }
+        }
+        else if(colour.equals("colour 2")){
+            setTheme(R.style.ThemeTwo);
+            if (Build.VERSION.SDK_INT >= 21) {
+                getWindow().setNavigationBarColor(getResources().getColor(R.color.theme_two));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.theme_two));
+            }
+        }
+        else if(colour.equals("colour 3")){
+            setTheme(R.style.ThemeThree);
+            if (Build.VERSION.SDK_INT >= 21) {
+                getWindow().setNavigationBarColor(getResources().getColor(R.color.theme_three));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.theme_three));
+            }
+        }
+
         setContentView(R.layout.activity_home);
 
         Bundle extras = getIntent().getExtras();
@@ -34,6 +85,9 @@ public class Home extends AppCompatActivity {
         category = extras.getString("Cat");
         date_time = extras.getString("date");
         my_id = extras.getInt("id");
+        font = extras.getString("font");
+        int text_size = extras.getInt("text_size");
+
 
         TextView sub = (TextView) findViewById(R.id.home_sub);
         TextView loc = (TextView) findViewById(R.id.home_location);
@@ -46,6 +100,18 @@ public class Home extends AppCompatActivity {
         mess.setText(message);
         cat.setText(category);
         date.setText(date_time);
+
+        Typeface typeface = Typeface.createFromAsset(getAssets(), font);
+        sub.setTypeface(typeface);
+        sub.setTextSize(text_size);
+        loc.setTypeface(typeface);
+        loc.setTextSize(text_size);
+        mess.setTypeface(typeface);
+        mess.setTextSize(text_size);
+        cat.setTypeface(typeface);
+        cat.setTextSize(text_size);
+        date.setTypeface(typeface);
+        date.setTextSize(text_size);
 
         message_to_share = getString(R.string.subject) + subject + "\n\n" + getString(R.string.message) +"\n" + message;
 

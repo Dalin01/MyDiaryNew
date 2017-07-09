@@ -1,6 +1,7 @@
 package com.example.darlington.mydiary;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ public class CustomDiaryAdapter extends ArrayAdapter<MyInbox> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         View listItemView = convertView;
 
         if (listItemView == null) {
@@ -45,6 +47,9 @@ public class CustomDiaryAdapter extends ArrayAdapter<MyInbox> {
         String date = current_message.getDate();
         String my_location = current_message.getLocation();
         String category = current_message.getCategory();
+        String font = current_message.getFont();
+        int text_size = current_message.getText_size();
+        String colour = current_message.getColour();
 
         GradientDrawable magnitudeCircle = (GradientDrawable) my_category.getBackground();
 
@@ -61,6 +66,17 @@ public class CustomDiaryAdapter extends ArrayAdapter<MyInbox> {
         my_time.setText(required_time);
         location.setText(my_location);
 
+        Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), font);
+        sub.setTypeface(typeface);
+        sub.setTextSize(text_size);
+        my_date.setTypeface(typeface);
+        my_date.setTextSize(text_size);
+        my_message.setTypeface(typeface);
+        my_message.setTextSize(text_size);
+        location.setTypeface(typeface);
+        location.setTextSize(text_size);
+        my_time.setTypeface(typeface);
+        my_time.setTextSize(text_size);
 
         return listItemView;
 

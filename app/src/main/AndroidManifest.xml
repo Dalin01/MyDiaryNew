@@ -3,6 +3,7 @@
     package="com.example.darlington.mydiary">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -40,6 +41,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Message"
+            android:label="Message"
             android:parentActivityName=".Inbox">
 
             <!-- The meta-data element is needed for versions lower than 4.1 -->
@@ -49,6 +51,7 @@
         </activity>
         <activity
             android:name=".Home"
+            android:label="Read"
             android:parentActivityName=".Inbox">
 
             <!-- The meta-data element is needed for versions lower than 4.1 -->
@@ -56,17 +59,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.darlington.mydiary.Inbox" />
         </activity>
-        <activity
-            android:name=".ForgotPassword"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <service
             android:name=".FloatingViewService"
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".LayoutFloatingActivity" />
-        <activity android:name=".EditMessage">
+        <activity android:name=".EditMessage"
+            android:label="Edit">
         </activity>
     </application>
 

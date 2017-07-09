@@ -3,20 +3,24 @@ package com.example.darlington.mydiary;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,18 +31,69 @@ import com.example.darlington.mydiary.diary.DiaryInboxHelper;
 
 import java.util.ArrayList;
 
-public class Inbox extends AppCompatActivity {
+public class Inbox extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 2084;
 
     ArrayList<MyInbox> details = new ArrayList<MyInbox>();
     CustomDiaryAdapter adapter;
 
+    String font;
+    int text_size;
+    String colour;
+
+    String message_to_share = "I use this android app and it's pretty amazing. Do download and enjoy!";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        {
+            DiaryHelper mDbHelper1 = new DiaryHelper(this);
+            SQLiteDatabase db1 = mDbHelper1.getReadableDatabase();
+
+            Cursor c = db1.query(
+                    DiaryContract.DiaryEntry.TABLE_NAME,
+                    null,                               // The columns to return
+                    null,                                // The columns for the WHERE clause
+                    null,                            // The values for the WHERE clause
+                    null,                                     // don't group the rows
+                    null,                                     // don't filter by row groups
+                    null
+            );
+
+            try {
+                c.moveToFirst();
+                colour = c.getString(c.getColumnIndexOrThrow(DiaryContract.DiaryEntry.COLUMN_COLOUR));
+            }
+            finally {
+                c.close();
+            }
+        }
+        if(colour.equals("colour 1")){
+            setTheme(R.style.ThemeOne);
+            if (Build.VERSION.SDK_INT >= 21) {
+                getWindow().setNavigationBarColor(getResources().getColor(R.color.theme_one));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.theme_one));
+            }
+        }
+        else if(colour.equals("colour 2")){
+            setTheme(R.style.ThemeTwo);
+            if (Build.VERSION.SDK_INT >= 21) {
+                getWindow().setNavigationBarColor(getResources().getColor(R.color.theme_two));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.theme_two));
+            }
+        }
+        else if(colour.equals("colour 3")){
+            setTheme(R.style.ThemeThree);
+            if (Build.VERSION.SDK_INT >= 21) {
+                getWindow().setNavigationBarColor(getResources().getColor(R.color.theme_three));
+                getWindow().setStatusBarColor(getResources().getColor(R.color.theme_three));
+            }
+        }
         setContentView(R.layout.activity_inbox);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -50,6 +105,7 @@ public class Inbox extends AppCompatActivity {
 
             String[] projection1 = {
                     DiaryContract.DiaryEntry.COLUMN_NAME,
+                    DiaryContract.DiaryEntry.COLUMN_FONT,
             };
 
             Cursor c = db1.query(
@@ -65,13 +121,23 @@ public class Inbox extends AppCompatActivity {
             try {
                 c.moveToFirst();
                 String name = c.getString(c.getColumnIndexOrThrow(DiaryContract.DiaryEntry.COLUMN_NAME));
+                font = c.getString(c.getColumnIndexOrThrow(DiaryContract.DiaryEntry.COLUMN_FONT));
+                text_size = c.getInt(c.getColumnIndexOrThrow(DiaryContract.DiaryEntry.COLUMN_FONT_SIZE));
+                colour = c.getString(c.getColumnIndexOrThrow(DiaryContract.DiaryEntry.COLUMN_COLOUR));
                 TextView v = (TextView) findViewById(R.id.name);
+                TextView copyright = (TextView) findViewById(R.id.copyright);
                 v.setText(name);
+                Typeface typeface = Typeface.createFromAsset(getAssets(), font);
+                v.setTypeface(typeface);
+                copyright.setTypeface(typeface);
+                v.setTextSize(text_size);
             }
             finally {
                 c.close();
             }
         }
+
+
 
         {
             DiaryInboxHelper mDbHelper = new DiaryInboxHelper(this);
@@ -102,6 +168,12 @@ public class Inbox extends AppCompatActivity {
 
             double count = cursor.getCount();
             int count_int = (int) count;
+            if(count == 0){
+                View empty = (View) findViewById(R.id.empty);
+                View good = (View) findViewById(R.id.my_list);
+                empty.setVisibility(View.VISIBLE);
+                good.setVisibility(View.GONE);
+            }
             TextView count_messages = (TextView) findViewById(R.id.count);
             count_messages.setText(String.valueOf(count_int));
 
@@ -115,7 +187,7 @@ public class Inbox extends AppCompatActivity {
                     String category = cursor.getString(cursor.getColumnIndexOrThrow(DiaryContract.DiaryEntry.COLUMN_CATEGORY));
 
 
-                    MyInbox details1 = new MyInbox(subject, location, message, password, category, id);
+                    MyInbox details1 = new MyInbox(subject, location, message, password, category, id, font, text_size, colour);
                     details.add(details1);
                     adapter = new CustomDiaryAdapter(this, details);
                     my_list.setAdapter(adapter);
@@ -130,6 +202,7 @@ public class Inbox extends AppCompatActivity {
                             String my_category = myInbox.getCategory();
                             String my_time_date = myInbox.getDate();
                             int my_id = myInbox.getId();
+                            String font = myInbox.getFont();
 
                             Intent i = new Intent(getApplicationContext(), Home.class);
                             i.putExtra("Sub", my_subject);
@@ -138,6 +211,8 @@ public class Inbox extends AppCompatActivity {
                             i.putExtra("Cat", my_category);
                             i.putExtra("date", my_time_date);
                             i.putExtra("id", my_id);
+                            i.putExtra("font", font);
+                            i.putExtra("text_size", text_size);
 
                             // Send the intent to launch a new activity
                             startActivity(i);
@@ -150,7 +225,75 @@ public class Inbox extends AppCompatActivity {
             }
         }
 
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
     }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.float_widget) {
+            chatHead();
+            return true;
+        } else if (id == R.id.fonts) {
+            DialogFragment fragment = new DialogFonts();
+            fragment.show(getSupportFragmentManager(), "note");
+            return true;
+        } else if (id == R.id.size) {
+            DialogFragment fragment = new DialogSize();
+            fragment.show(getSupportFragmentManager(), "note");
+            return true;
+        } else if (id == R.id.colour) {
+            DialogFragment fragment = new DialogColour();
+            fragment.show(getSupportFragmentManager(), "note");
+            return true;
+        } else if (id == R.id.share) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, message_to_share);
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            }
+            return true;
+        } else if (id == R.id.contact) {
+            Intent mail = new Intent(Intent.ACTION_SENDTO);
+            mail.setData(Uri.parse("mailto:somtodarlington@yahoo.com"));
+            mail.putExtra(Intent.EXTRA_SUBJECT, "Awesome Darlington");
+            mail.putExtra(Intent.EXTRA_TEXT, "");
+            // Verify that the intent will resolve to an activity
+            if (mail.resolveActivity(getPackageManager()) != null) {
+                startActivity(Intent.createChooser(mail, "Choose an email client from..."));
+            }
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CODE_DRAW_OVER_OTHER_APP_PERMISSION) {
@@ -161,7 +304,6 @@ public class Inbox extends AppCompatActivity {
                 Toast.makeText(this,
                         "Draw over other app permission not available. Closing the application",
                         Toast.LENGTH_SHORT).show();
-
                 finish();
             }
         } else {
@@ -193,10 +335,6 @@ public class Inbox extends AppCompatActivity {
             fragment.show(getSupportFragmentManager(), "note");
             return true;
         }
-        else if(id == R.id.float_widget){
-            chatHead();
-            return true;
-        }
         else if (id == R.id.exit){
             finish();
         }
@@ -223,5 +361,7 @@ public class Inbox extends AppCompatActivity {
             finish();
         }
     }
+
+
 
 }

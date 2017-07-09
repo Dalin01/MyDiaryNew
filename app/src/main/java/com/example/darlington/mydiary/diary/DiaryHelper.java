@@ -18,7 +18,10 @@ public class DiaryHelper extends SQLiteOpenHelper {
                     DiaryContract.DiaryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     DiaryContract.DiaryEntry.COLUMN_NAME + " TEXT," +
                     DiaryContract.DiaryEntry.COLUMN_QUES_ANS + " TEXT," +
-                    DiaryContract.DiaryEntry.COLUMN_PASS + " TEXT)";
+                    DiaryContract.DiaryEntry.COLUMN_PASS + " TEXT," +
+                    DiaryContract.DiaryEntry.COLUMN_FONT_SIZE + " INTEGER," +
+                    DiaryContract.DiaryEntry.COLUMN_COLOUR + " TEXT," +
+                    DiaryContract.DiaryEntry.COLUMN_FONT + " TEXT)";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DiaryContract.DiaryEntry.TABLE_NAME;

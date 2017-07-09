@@ -16,6 +16,9 @@ public final class DiaryContract {
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_QUES_ANS = "answer";
         public static final String COLUMN_PASS = "password";
+        public static final String COLUMN_FONT = "font";
+        public static final String COLUMN_FONT_SIZE = "size";
+        public static final String COLUMN_COLOUR = "colour";
 
         public static final String _ID_MESSAGE = BaseColumns._ID;
         public static final String TABLE_NAME_INBOX = "inbox";

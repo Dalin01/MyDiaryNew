@@ -17,4 +17,37 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="ThemeOne">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#9B26AF</item>
+        <item name="colorPrimaryDark">#691A99</item>
+        <item name="colorAccent">#68EFAD</item>
+        <item name="android:navigationBarColor">@color/colorAccent</item>
+    </style>
+
+    <style name="ThemeOne.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="ThemeOne.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="ThemeOne.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="ThemeTwo">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#00AA8D</item>
+        <item name="colorPrimaryDark">#008975</item>
+        <item name="colorAccent">#00BF9A</item>
+        <item name="android:navigationBarColor">@color/colorAccent</item>
+    </style>
+
+    <style name="ThemeThree">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#FF4081</item>
+        <item name="colorPrimaryDark">#F50057</item>
+        <item name="colorAccent">#FF4081</item>
+        <item name="android:navigationBarColor">@color/colorAccent</item>
+    </style>
+
 </resources>

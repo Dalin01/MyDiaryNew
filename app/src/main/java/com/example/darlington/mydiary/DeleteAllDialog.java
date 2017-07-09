@@ -51,6 +51,7 @@ public class DeleteAllDialog extends DialogFragment {
                     null);
 
             if (feedback != -1) {
+                getActivity().finish();
                 Intent i = new Intent(getActivity(), Inbox.class);
                 startActivity(i);
 

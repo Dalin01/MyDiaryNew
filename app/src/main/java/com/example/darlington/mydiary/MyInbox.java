@@ -12,8 +12,11 @@ public class MyInbox {
     private String date;
     private String category;
     private int id;
+    private String font;
+    private int text_size;
+    private String colour;
 
-    public MyInbox(String subject, String location, String message, String date, String category, int id)
+    public MyInbox(String subject, String location, String message, String date, String category, int id, String font, int text_size, String colour)
     {
         this.Subject = subject;
         this.message = message;
@@ -21,6 +24,9 @@ public class MyInbox {
         this.location = location;
         this.category = category;
         this.id = id;
+        this.font = font;
+        this.text_size = text_size;
+        this.colour = colour;
     }
 
     public String getSubject()
@@ -45,5 +51,20 @@ public class MyInbox {
     public int getId()
     {
         return id;
+    }
+
+    public String getFont()
+    {
+        return font;
+    }
+
+    public int getText_size()
+    {
+        return text_size;
+    }
+
+    public String getColour()
+    {
+        return colour;
     }
 }
