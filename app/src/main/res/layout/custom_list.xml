@@ -1,120 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:paddingEnd="5dp"
     android:paddingRight="5dp"
     android:paddingStart="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
         <LinearLayout
-            android:padding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="5dp">
-            <LinearLayout
-                android:layout_width="46dp"
-                android:layout_height="match_parent">
-                <TextView
-                    android:id="@+id/my_category"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_marginLeft="3dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/category_circle"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="center" />
-            </LinearLayout>
+            android:layout_width="46dp"
+            android:layout_height="match_parent">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/my_category"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="4"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/subject"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:fontFamily="sans-serif"
-                    android:maxLines="1"
-                    android:textStyle="bold"
-                    android:textColor="#2B3D4D"
-                    android:textSize="16sp"
-                    tools:text="Darlington"
-                    android:padding="1dp"/>
-
-                <TextView
-                    android:id="@+id/location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:fontFamily="sans-serif"
-                    android:maxLines="1"
-                    android:textColor="#2B3D4D"
-                    android:textSize="14sp"
-                    tools:text="Darlington"
-                    android:padding="1dp"/>
-
-                <TextView
-                    android:id="@+id/message"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:textColor="#B4BAC0"
-                    android:textSize="12sp"
-                    android:fontFamily="serif"
-                    android:paddingLeft="1dp"
-                    android:paddingBottom="4dp"
-                    android:paddingTop="1dp"
-                    tools:text="Long placeholder location that should wrap to more than 2 lines of text" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:fontFamily="sans-serif-medium"
-                    android:maxLines="1"
-                    android:gravity="bottom"
-                    android:textColor="#2B3D4D"
-                    android:textSize="14sp"
-                    tools:text="3.30pm"
-                    android:padding="1dp"/>
-
-
-                <TextView
-                    android:id="@+id/date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:fontFamily="serif"
-                    android:textColor="#B4BAC0"
-                    android:textSize="12sp"
-                    tools:text="31.08.2017"
-                    android:paddingTop="1dp"/>
-
-            </LinearLayout>
+                android:layout_marginLeft="3dp"
+                android:background="@drawable/category_circle"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="4"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/subject"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif"
+                android:maxLines="1"
+                android:padding="1dp"
+                android:textColor="#2B3D4D"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="Darlington" />
+
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif"
+                android:maxLines="1"
+                android:padding="1dp"
+                android:textColor="#2B3D4D"
+                android:textSize="14sp"
+                tools:text="Darlington" />
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:ellipsize="end"
+                android:fontFamily="serif"
+                android:maxLines="2"
+                android:paddingBottom="4dp"
+                android:paddingLeft="1dp"
+                android:paddingTop="1dp"
+                android:textColor="#B4BAC0"
+                android:textSize="12sp"
+                tools:text="Long placeholder location that should wrap to more than 2 lines of text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="bottom"
+                android:maxLines="1"
+                android:padding="1dp"
+                android:textColor="#2B3D4D"
+                android:textSize="14sp"
+                tools:text="3.30pm" />
+
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:fontFamily="serif"
+                android:maxLines="1"
+                android:paddingTop="1dp"
+                android:textColor="#B4BAC0"
+                android:textSize="12sp"
+                tools:text="31.08.2017" />
+
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

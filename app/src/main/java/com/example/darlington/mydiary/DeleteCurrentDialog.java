@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.widget.Toast;
 
 import com.example.darlington.mydiary.diary.DiaryContract;
 import com.example.darlington.mydiary.diary.DiaryInboxHelper;
@@ -17,6 +18,7 @@ import com.example.darlington.mydiary.diary.DiaryInboxHelper;
  */
 
 public class DeleteCurrentDialog extends DialogFragment {
+
     String message = "You are about to delete this current message." +
             "\n\n\nIt can't be revoked";
 
@@ -40,14 +42,13 @@ public class DeleteCurrentDialog extends DialogFragment {
         return builder.create();
     }
 
+    //delete the message required using the specified where clause as guide.
     public void delete(){
         DiaryInboxHelper mDbHelper = new DiaryInboxHelper(getActivity());
-        // Gets the data repository in write mode
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-        // Filter results WHERE "title" = 'My Title'
-        String selection = DiaryContract.DiaryEntry._ID_MESSAGE + " LIKE ?";
-        String[] selectionArgs = { String.valueOf(Home.my_id) };
+        String selection = DiaryContract.DiaryEntry._ID_MESSAGE + " LIKE ?"; // where clause
+        String[] selectionArgs = { String.valueOf(Home.my_id) }; // value of clause
 
         try{
             int feedback = db.delete(
@@ -56,8 +57,11 @@ public class DeleteCurrentDialog extends DialogFragment {
                     selectionArgs);
 
             if (feedback != -1) {
+                Inbox.getInstanceInbox().finish();
+                Home.getInstanceHome().finish();
                 Intent i = new Intent(getActivity(), Inbox.class);
                 startActivity(i);
+                Toast.makeText(getActivity(), "Message deleted successfully", Toast.LENGTH_SHORT).show();
 
             } else {
                 Snackbar.make(getActivity().findViewById(R.id.main), "Failed, please try again.", Snackbar.LENGTH_LONG)

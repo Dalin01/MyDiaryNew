@@ -53,34 +53,40 @@ public class DialogSize extends DialogFragment {
     }
 
     public void getFontSize(){
-        if (font.equals("DEFAULT")){
-            my_font_size = 17;
-        }
-        else if (font.equals("MEDIUM")){
-            my_font_size = 19;
-        }
-        else if (font.equals("LARGE")){
-            my_font_size = 21;
-        }
-        DiaryHelper mDbHelper = new DiaryHelper(getActivity());
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(DiaryContract.DiaryEntry.COLUMN_FONT_SIZE, my_font_size);
+        if(font != null){
+            if (font.equals("DEFAULT")){
+                my_font_size = 17;
+            }
+            else if (font.equals("MEDIUM")){
+                my_font_size = 19;
+            }
+            else if (font.equals("LARGE")){
+                my_font_size = 21;
+            }
+            DiaryHelper mDbHelper = new DiaryHelper(getActivity());
+            SQLiteDatabase db = mDbHelper.getReadableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(DiaryContract.DiaryEntry.COLUMN_FONT_SIZE, my_font_size);
 
-        int count = db.update(
-                DiaryContract.DiaryEntry.TABLE_NAME,
-                values,
-                null,
-                null
-        );
+            int count = db.update(
+                    DiaryContract.DiaryEntry.TABLE_NAME,
+                    values,
+                    null,
+                    null
+            );
 
-        if (count != -1){
-            Toast.makeText(getContext(), "Font size changed successfully", Toast.LENGTH_SHORT).show();
-            getActivity().finish();
-            startActivity(getActivity().getIntent());
+            if (count != -1){
+                Toast.makeText(getContext(), "Font size changed successfully", Toast.LENGTH_SHORT).show();
+                getActivity().finish();
+                startActivity(getActivity().getIntent());
+            }
+            else{
+                Toast.makeText(getContext(), "Failed. Please try again", Toast.LENGTH_SHORT).show();
+            }
         }
         else{
-            Toast.makeText(getContext(), "Failed. Please try again", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Pick a size and click OK", Toast.LENGTH_SHORT).show();
         }
+
     }
 }

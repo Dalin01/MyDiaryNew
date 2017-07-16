@@ -15,7 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.darlington.mydiary.diary.DiaryContract;
 import com.example.darlington.mydiary.diary.DiaryHelper;
@@ -297,18 +297,19 @@ public class EditMessage extends AppCompatActivity implements AdapterView.OnItem
             values.put(DiaryContract.DiaryEntry.COLUMN_LOCATION, my_location);
             values.put(DiaryContract.DiaryEntry.COLUMN_MESSAGE, my_message);
             values.put(DiaryContract.DiaryEntry.COLUMN_CATEGORY, category);
+            values.put(DiaryContract.DiaryEntry.COLUMN_STAR, "unchecked");
             values.put(DiaryContract.DiaryEntry.COLUMN_DATE_TIME, current_date_and_time);
 
             // Insert the new row, returning the primary key value of the new row
             long newRowId = db.insert(DiaryContract.DiaryEntry.TABLE_NAME_INBOX, null, values);
 
             if (newRowId != -1) {
-                subject.setText("");
-                location.setText("");
-                message.setText("");
-
-                Snackbar.make(view, "You message has been updated successfully", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Inbox.getInstanceInbox().finish();
+                Home.getInstanceHome().finish();
+                Intent i = new Intent(this, Inbox.class);
+                startActivity(i);
+                finish();
+                Toast.makeText(this, "Message updated successfully", Toast.LENGTH_SHORT).show();
 
             } else {
                 Snackbar.make(view, "Failed, please try again.", Snackbar.LENGTH_LONG)

@@ -3,7 +3,8 @@
     package="com.example.darlington.mydiary">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="true"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -65,8 +66,39 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".EditMessage"
-            android:label="Edit">
+        <activity
+            android:name=".EditMessage"
+            android:label="Edit" />
+        <activity
+            android:name=".Sort"
+            android:label="Sort"
+            android:parentActivityName=".Inbox">
+
+            <!-- The meta-data element is needed for versions lower than 4.1 -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.darlington.mydiary.Inbox" />
+        </activity>
+        <activity
+            android:name=".SortDate"
+            android:label="Date Sort"
+            android:parentActivityName=".Inbox"
+            android:screenOrientation="portrait">
+
+            <!-- The meta-data element is needed for versions lower than 4.1 -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.darlington.mydiary.Inbox" />
+        </activity>
+        <activity
+            android:name=".SortStar"
+            android:label="Starred Messages"
+            android:parentActivityName=".Inbox">
+
+            <!-- The meta-data element is needed for versions lower than 4.1 -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.darlington.mydiary.Inbox" />
         </activity>
     </application>
 

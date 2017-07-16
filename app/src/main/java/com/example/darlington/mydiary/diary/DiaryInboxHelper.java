@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 public class DiaryInboxHelper extends SQLiteOpenHelper {
-    // If you change the database schema, you must increment the database version.
+
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "MyDiaryMessage.db";
     private static final String SQL_CREATE_ENTRIES =
@@ -19,6 +19,7 @@ public class DiaryInboxHelper extends SQLiteOpenHelper {
                     DiaryContract.DiaryEntry.COLUMN_LOCATION + " TEXT," +
                     DiaryContract.DiaryEntry.COLUMN_MESSAGE + " TEXT," +
                     DiaryContract.DiaryEntry.COLUMN_CATEGORY + " TEXT," +
+                    DiaryContract.DiaryEntry.COLUMN_STAR + " TEXT," +
                     DiaryContract.DiaryEntry.COLUMN_DATE_TIME + " TEXT)";
 
     private static final String SQL_DELETE_ENTRIES =

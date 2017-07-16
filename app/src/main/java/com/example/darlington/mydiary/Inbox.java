@@ -1,5 +1,6 @@
 package com.example.darlington.mydiary;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -31,6 +32,8 @@ import com.example.darlington.mydiary.diary.DiaryInboxHelper;
 
 import java.util.ArrayList;
 
+import static android.support.design.R.attr.headerLayout;
+
 public class Inbox extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 2084;
@@ -42,7 +45,10 @@ public class Inbox extends AppCompatActivity implements NavigationView.OnNavigat
     int text_size;
     String colour;
 
+    static Activity activityInbox;
+
     String message_to_share = "I use this android app and it's pretty amazing. Do download and enjoy!";
+    private String mActivityTitle;
 
 
     @Override
@@ -93,6 +99,8 @@ public class Inbox extends AppCompatActivity implements NavigationView.OnNavigat
             }
         }
         setContentView(R.layout.activity_inbox);
+
+        activityInbox = this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -151,6 +159,7 @@ public class Inbox extends AppCompatActivity implements NavigationView.OnNavigat
                     DiaryContract.DiaryEntry.COLUMN_MESSAGE,
                     DiaryContract.DiaryEntry.COLUMN_DATE_TIME,
                     DiaryContract.DiaryEntry.COLUMN_CATEGORY,
+                    DiaryContract.DiaryEntry.COLUMN_STAR,
             };
 
             String sortOrder = DiaryContract.DiaryEntry._ID_MESSAGE + " DESC";
@@ -185,9 +194,8 @@ public class Inbox extends AppCompatActivity implements NavigationView.OnNavigat
                     String message = cursor.getString(cursor.getColumnIndexOrThrow(DiaryContract.DiaryEntry.COLUMN_MESSAGE));
                     String password = cursor.getString(cursor.getColumnIndexOrThrow(DiaryContract.DiaryEntry.COLUMN_DATE_TIME));
                     String category = cursor.getString(cursor.getColumnIndexOrThrow(DiaryContract.DiaryEntry.COLUMN_CATEGORY));
-
-
-                    MyInbox details1 = new MyInbox(subject, location, message, password, category, id, font, text_size, colour);
+                    String star = cursor.getString(cursor.getColumnIndexOrThrow(DiaryContract.DiaryEntry.COLUMN_STAR));
+                    MyInbox details1 = new MyInbox(subject, location, message, password, category, id, font, text_size, colour, star);
                     details.add(details1);
                     adapter = new CustomDiaryAdapter(this, details);
                     my_list.setAdapter(adapter);
@@ -203,6 +211,7 @@ public class Inbox extends AppCompatActivity implements NavigationView.OnNavigat
                             String my_time_date = myInbox.getDate();
                             int my_id = myInbox.getId();
                             String font = myInbox.getFont();
+                            String star = myInbox.getStar();
 
                             Intent i = new Intent(getApplicationContext(), Home.class);
                             i.putExtra("Sub", my_subject);
@@ -213,6 +222,7 @@ public class Inbox extends AppCompatActivity implements NavigationView.OnNavigat
                             i.putExtra("id", my_id);
                             i.putExtra("font", font);
                             i.putExtra("text_size", text_size);
+                            i.putExtra("star", star);
 
                             // Send the intent to launch a new activity
                             startActivity(i);
@@ -223,15 +233,33 @@ public class Inbox extends AppCompatActivity implements NavigationView.OnNavigat
             finally {
                 cursor.close();
             }
+
         }
 
+        mActivityTitle = getTitle().toString();
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getSupportActionBar().setTitle("Navigation");
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+
+            }
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getSupportActionBar().setTitle(mActivityTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
-
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -268,6 +296,19 @@ public class Inbox extends AppCompatActivity implements NavigationView.OnNavigat
             return true;
         } else if (id == R.id.colour) {
             DialogFragment fragment = new DialogColour();
+            fragment.show(getSupportFragmentManager(), "note");
+            return true;
+        } else if (id == R.id.starred) {
+            Intent i = new Intent(this, SortStar.class);
+            i.putExtra("star", "star");
+            startActivity(i);
+            return true;
+        } else if (id == R.id.date_sort) {
+            Intent i = new Intent(this, SortDate.class);
+            startActivity(i);
+            return true;
+        }else if (id == R.id.category_sort) {
+            DialogFragment fragment = new DialogCategory();
             fragment.show(getSupportFragmentManager(), "note");
             return true;
         } else if (id == R.id.share) {
@@ -360,6 +401,10 @@ public class Inbox extends AppCompatActivity implements NavigationView.OnNavigat
             startService(new Intent(Inbox.this, FloatingViewService.class));
             finish();
         }
+    }
+
+    public static Activity getInstanceInbox(){
+        return activityInbox;
     }
 
 

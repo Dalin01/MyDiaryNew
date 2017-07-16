@@ -1,5 +1,6 @@
 package com.example.darlington.mydiary;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
@@ -23,16 +24,27 @@ public class MainActivity extends AppCompatActivity {
     DiaryHelper mDbHelper;
     SQLiteDatabase db;
     String password = "darlington";
+    static Activity activityMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        activityMain = this;
+
         //Get the text view and sex the font to angelina.
         TextView myTextView = (TextView) findViewById(R.id.text);
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/angelina.TTF");
+        Button button_one = (Button) findViewById(R.id.del);
+        Button button_two = (Button) findViewById(R.id.login);
+        Button button_three = (Button) findViewById(R.id.pin1);
+        Button button_four = (Button) findViewById(R.id.reg);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/roboto_regular.otf");
         myTextView.setTypeface(typeface);
+        button_one.setTypeface(typeface);
+        button_two.setTypeface(typeface);
+        button_three.setTypeface(typeface);
+        button_four.setTypeface(typeface);
 
         mDbHelper = new DiaryHelper(this);  //create an instance of DiaryHelper
         db = mDbHelper.getReadableDatabase(); // get the readable database method for accessing data from the db
@@ -63,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         finally {
             cursor.close(); // close the cursor
         }
-
     }
 
     // This method is called when the register button is clicked
@@ -73,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
         i.putExtra("Register", "register");
         startActivity(i);
     }
-
 
     // Method that checks if the provided password is same as the given password
     // and if they are same, the user is granted access into his/her account.
@@ -90,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
                     .setAction("Action", null).show();
             text_box.setText("");
         }
-
     }
 
     // method the appends a string to the existing string in the edit text field and checks
@@ -118,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         }
-
     }
 
     // method that clears up the edit text field
@@ -132,6 +140,10 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, Register.class);
         i.putExtra("Register", "not used");
         startActivity(i);
+    }
+
+    public static Activity getInstance(){
+        return activityMain;
     }
 }
 

@@ -28,7 +28,7 @@
             android:id="@+id/fname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enter Firstname"
+            android:text="Enter Name"
             android:textColor="@android:color/white" />
 
         <EditText
@@ -110,13 +110,9 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="To recover pin, please and the question below"
-            android:textColor="@android:color/white"/>
 
         <TextView
+            android:id="@+id/rec_ques"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -132,6 +128,7 @@
             android:gravity="center"
             android:textColorHint="@android:color/holo_blue_light"
             android:textColor="@android:color/white"/>
+
         <Button
             android:id="@+id/login1"
             android:layout_width="200dp"

@@ -5,18 +5,18 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.darlington.mydiary.diary.DiaryContract;
 import com.example.darlington.mydiary.diary.DiaryHelper;
-import com.example.darlington.mydiary.diary.DiaryInboxHelper;
 
 public class Register extends AppCompatActivity {
 
@@ -45,6 +45,23 @@ public class Register extends AppCompatActivity {
         } else {
             v2.setVisibility(v2.VISIBLE);
         }
+
+        //Get the text view and sex the font to angelina.
+        TextView myTextView = (TextView) findViewById(R.id.fname);
+        TextView myTextView1 = (TextView) findViewById(R.id.pin);
+        TextView myTextView2 = (TextView) findViewById(R.id.sec_ques);
+        TextView myTextView3 = (TextView) findViewById(R.id.ques);
+        TextView myTextView4 = (TextView) findViewById(R.id.rec_ques);
+        Button button_one = (Button) findViewById(R.id.login);
+        Button button_two = (Button) findViewById(R.id.login1);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/roboto_regular.otf");
+        myTextView.setTypeface(typeface);
+        myTextView1.setTypeface(typeface);
+        myTextView2.setTypeface(typeface);
+        myTextView3.setTypeface(typeface);
+        myTextView4.setTypeface(typeface);
+        button_one.setTypeface(typeface);
+        button_two.setTypeface(typeface);
     }
 
     //method that gets the values from the input fields and saves them in the db
@@ -93,7 +110,7 @@ public class Register extends AppCompatActivity {
                 values.put(DiaryContract.DiaryEntry.COLUMN_PASS, pass);
                 values.put(DiaryContract.DiaryEntry.COLUMN_FONT_SIZE, 17);
                 values.put(DiaryContract.DiaryEntry.COLUMN_COLOUR, "default");
-                values.put(DiaryContract.DiaryEntry.COLUMN_FONT, "fonts/roboto_regular.ttf");
+                values.put(DiaryContract.DiaryEntry.COLUMN_FONT, "fonts/roboto_regular.otf");
 
                 // Insert the new row, returning the primary key value of the new row
                 long newRowId = db1.insert(DiaryContract.DiaryEntry.TABLE_NAME, null, values);
@@ -101,6 +118,7 @@ public class Register extends AppCompatActivity {
                 if (newRowId != -1) {
                     Toast.makeText(this, "Registration Successful", Toast.LENGTH_SHORT).show();//if successful say it through a toast message
                     finish();// close the current activity
+                    MainActivity.getInstance().finish();
                     Intent i = new Intent(this, Inbox.class);// create an instance of Intent while passing this current activity and the Inbox as arguments
                     startActivity(i);//start new activity
                 } else {

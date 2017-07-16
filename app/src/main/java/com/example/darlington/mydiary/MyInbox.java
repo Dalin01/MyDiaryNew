@@ -15,8 +15,9 @@ public class MyInbox {
     private String font;
     private int text_size;
     private String colour;
+    private String star;
 
-    public MyInbox(String subject, String location, String message, String date, String category, int id, String font, int text_size, String colour)
+    public MyInbox(String subject, String location, String message, String date, String category, int id, String font, int text_size, String colour, String star)
     {
         this.Subject = subject;
         this.message = message;
@@ -27,6 +28,7 @@ public class MyInbox {
         this.font = font;
         this.text_size = text_size;
         this.colour = colour;
+        this.star = star;
     }
 
     public String getSubject()
@@ -67,4 +69,9 @@ public class MyInbox {
     {
         return colour;
     }
+
+    public String getStar(){
+        return star;
+    }
+
 }

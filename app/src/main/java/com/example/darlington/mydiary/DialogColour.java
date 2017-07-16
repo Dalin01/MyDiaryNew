@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.darlington.mydiary.diary.DiaryContract;
@@ -56,38 +55,44 @@ public class DialogColour extends DialogFragment {
     }
 
     public void getFont(){
-        if (font.equals("DEFAULT")){
-            my_font_colour = "default";
-        }
-        else if (font.equals("COLOUR 1")){
-            my_font_colour = "colour 1";
-        }
-        else if (font.equals("COLOUR 2")){
-            my_font_colour = "colour 2";
-        }
-        else if (font.equals("COLOUR 3")){
-            my_font_colour = "colour 3";
-        }
+        if(font != null){
+            if (font.equals("DEFAULT")){
+                my_font_colour = "default";
+            }
+            else if (font.equals("COLOUR 1")){
+                my_font_colour = "colour 1";
+            }
+            else if (font.equals("COLOUR 2")){
+                my_font_colour = "colour 2";
+            }
+            else if (font.equals("COLOUR 3")){
+                my_font_colour = "colour 3";
+            }
 
-        DiaryHelper mDbHelper = new DiaryHelper(getActivity());
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(DiaryContract.DiaryEntry.COLUMN_COLOUR, my_font_colour);
+            DiaryHelper mDbHelper = new DiaryHelper(getActivity());
+            SQLiteDatabase db = mDbHelper.getReadableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(DiaryContract.DiaryEntry.COLUMN_COLOUR, my_font_colour);
 
-        int count = db.update(
-                DiaryContract.DiaryEntry.TABLE_NAME,
-                values,
-                null,
-                null
-        );
+            int count = db.update(
+                    DiaryContract.DiaryEntry.TABLE_NAME,
+                    values,
+                    null,
+                    null
+            );
 
-        if (count != -1){
-            Toast.makeText(getContext(), "Colour changed successfully", Toast.LENGTH_SHORT).show();
-            getActivity().finish();
-            startActivity(getActivity().getIntent());
+            if (count != -1){
+                Toast.makeText(getContext(), "Colour changed successfully", Toast.LENGTH_SHORT).show();
+                getActivity().finish();
+                startActivity(getActivity().getIntent());
+            }
+            else{
+                Toast.makeText(getContext(), "Failed. Please try again", Toast.LENGTH_SHORT).show();
+            }
         }
         else{
-            Toast.makeText(getContext(), "Failed. Please try again", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Pick a colour and click OK", Toast.LENGTH_SHORT).show();
         }
+
     }
 }

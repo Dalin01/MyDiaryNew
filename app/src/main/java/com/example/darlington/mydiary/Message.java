@@ -272,12 +272,14 @@ public class Message extends AppCompatActivity implements AdapterView.OnItemSele
             values.put(DiaryContract.DiaryEntry.COLUMN_LOCATION, my_location);
             values.put(DiaryContract.DiaryEntry.COLUMN_MESSAGE, my_message);
             values.put(DiaryContract.DiaryEntry.COLUMN_CATEGORY, category);
+            values.put(DiaryContract.DiaryEntry.COLUMN_STAR, "unchecked");
             values.put(DiaryContract.DiaryEntry.COLUMN_DATE_TIME, current_date_and_time);
 
             // Insert the new row, returning the primary key value of the new row
             long newRowId = db.insert(DiaryContract.DiaryEntry.TABLE_NAME_INBOX, null, values);
 
             if (newRowId != -1) {
+                Inbox.getInstanceInbox().finish();
                 Intent i = new Intent(this, Inbox.class);
                 startActivity(i);
                 finish();
@@ -288,8 +290,6 @@ public class Message extends AppCompatActivity implements AdapterView.OnItemSele
                         .setAction("Action", null).show();
             }
         }
-
-
     }
 
 

@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DiaryHelper extends SQLiteOpenHelper {
 
-    // If you change the database schema, you must increment the database version.
+    // Schema to create the db if non exists or create a table
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "MyDiary.db";
     private static final String SQL_CREATE_ENTRIES =
@@ -38,6 +38,6 @@ public class DiaryHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(SQL_DELETE_ENTRIES);
-        onCreate(db);
+        onCreate(db); // check on this before launch.
     }
 }

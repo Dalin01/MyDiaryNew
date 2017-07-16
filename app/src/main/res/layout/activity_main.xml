@@ -44,11 +44,11 @@
                 android:textDirection="anyRtl"/>
 
             <Button
+                android:id="@+id/del"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@drawable/my_button"
-                android:fontFamily="sans-serif"
                 android:text="del"
                 android:onClick="del"
                 android:textColor="@android:color/white" />
@@ -204,6 +204,7 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/pin1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -216,6 +217,7 @@
             android:textColor="@android:color/white" />
 
         <Button
+            android:id="@+id/reg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

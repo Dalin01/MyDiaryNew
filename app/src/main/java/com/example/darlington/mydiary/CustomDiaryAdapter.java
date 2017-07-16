@@ -10,12 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by Darlington on 6/17/2017.
+ * Customize adapter for populating the custom list view in the Inbox.
  */
 
 public class CustomDiaryAdapter extends ArrayAdapter<MyInbox> {
@@ -27,14 +26,15 @@ public class CustomDiaryAdapter extends ArrayAdapter<MyInbox> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View listItemView = convertView;
+        View listItemView = convertView; //view passed to it
 
-        if (listItemView == null) {
+        if (listItemView == null) { // if the view is null create a new view
             listItemView = LayoutInflater.from(getContext()).inflate(R.layout.custom_list, parent, false);
         }
 
-        MyInbox current_message = getItem(position);
+        MyInbox current_message = getItem(position); // get the next item for the db through the class
 
+        //get the views required from the list view
         TextView sub = (TextView) listItemView.findViewById(R.id.subject);
         TextView my_message = (TextView) listItemView.findViewById(R.id.message);
         TextView location = (TextView) listItemView.findViewById(R.id.location);
@@ -42,6 +42,8 @@ public class CustomDiaryAdapter extends ArrayAdapter<MyInbox> {
         TextView my_date = (TextView) listItemView.findViewById(R.id.date);
         TextView my_category = (TextView) listItemView.findViewById(R.id.my_category);
 
+        //call the get methods in the instance of the class current_message and
+        //save the results in corresponding variables
         String subject = current_message.getSubject();
         String message = current_message.getMessage();
         String date = current_message.getDate();
@@ -49,23 +51,26 @@ public class CustomDiaryAdapter extends ArrayAdapter<MyInbox> {
         String category = current_message.getCategory();
         String font = current_message.getFont();
         int text_size = current_message.getText_size();
-        String colour = current_message.getColour();
 
+        // set the drawable (circle) in the view- color also
         GradientDrawable magnitudeCircle = (GradientDrawable) my_category.getBackground();
-
         int magnitudeColor = getCategoryColor(category);
         magnitudeCircle.setColor(magnitudeColor);
 
+        //using split method to generate an array of the item in the date_time variable
+        //and then save the items in the array in corresponding variables.
         String[] date_time = date.split(" ");
         String required_date = date_time[0];
         String required_time = date_time[1];
 
+        //set the views to the appropriate values
         sub.setText(subject);
         my_message.setText(message);
         my_date.setText(required_date);
         my_time.setText(required_time);
         location.setText(my_location);
 
+        //set the fonts
         Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), font);
         sub.setTypeface(typeface);
         sub.setTextSize(text_size);
@@ -78,10 +83,14 @@ public class CustomDiaryAdapter extends ArrayAdapter<MyInbox> {
         my_time.setTypeface(typeface);
         my_time.setTextSize(text_size);
 
+        //return the list item.
         return listItemView;
 
     }
 
+
+    // method that set the color for the drawable based on the category
+    //selected and displays on the view
     public int getCategoryColor(String cat){
         int magnitudeColorResourceId;
         switch (cat) {

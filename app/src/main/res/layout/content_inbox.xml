@@ -27,15 +27,25 @@
             android:textSize="16sp"/>
     </LinearLayout>
 
-    <TextView
-        android:visibility="gone"
+    <LinearLayout
         android:id="@+id/empty"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="No saved messages"
         android:gravity="center"
-        />
+        android:orientation="vertical">
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/empty"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No saved messages"
+            android:gravity="center" />
+    </LinearLayout>
 
     <ListView
         android:visibility="visible"
@@ -44,8 +54,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:divider="@color/colorPrimary"
-        android:dividerHeight="0.3dp"
-        />
+        android:dividerHeight="0.3dp" />
 
     <TextView
     android:id="@+id/copyright"
@@ -54,5 +63,6 @@
     android:gravity="center_vertical"
     android:text="©2017 . Darlington"
     android:padding="10dp"/>
+
 
 </LinearLayout>

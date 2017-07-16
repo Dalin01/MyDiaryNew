@@ -1,5 +1,7 @@
 package com.example.darlington.mydiary;
 
+import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,11 +13,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.darlington.mydiary.diary.DiaryContract;
 import com.example.darlington.mydiary.diary.DiaryHelper;
 import com.example.darlington.mydiary.diary.DiaryInboxHelper;
+
+import hani.momanii.supernova_emoji_library.Helper.EmojiconTextView;
 
 public class Home extends AppCompatActivity {
 
@@ -28,6 +35,8 @@ public class Home extends AppCompatActivity {
     public String message_to_share;
     public String font;
     String colour;
+    String my_star;
+    static Activity activityHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +86,7 @@ public class Home extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_home);
+        activityHome = this;
 
         Bundle extras = getIntent().getExtras();
         subject = extras.getString("Sub");
@@ -87,13 +97,21 @@ public class Home extends AppCompatActivity {
         my_id = extras.getInt("id");
         font = extras.getString("font");
         int text_size = extras.getInt("text_size");
+        my_star = extras.getString("star");
 
 
         TextView sub = (TextView) findViewById(R.id.home_sub);
         TextView loc = (TextView) findViewById(R.id.home_location);
-        TextView mess = (TextView) findViewById(R.id.home_message);
+        EmojiconTextView mess = (EmojiconTextView) findViewById(R.id.home_message);
         TextView cat = (TextView) findViewById(R.id.home_cat);
         TextView date = (TextView) findViewById(R.id.home_date_time);
+        CheckBox checkBox = (CheckBox) findViewById(R.id.star);
+        if (my_star.equals("checked")) {
+            checkBox.setChecked(true);
+        }
+        else{
+            checkBox.setChecked(false);
+        }
 
         sub.setText(subject);
         loc.setText(location);
@@ -160,5 +178,51 @@ public class Home extends AppCompatActivity {
        edit_message.putExtra("category", category);
        edit_message.putExtra("time", date_time);
        startActivity(edit_message);
+    }
+
+    public void star(View view) {
+        CheckBox checkBox = (CheckBox) findViewById(R.id.star);
+        DiaryInboxHelper mDbHelper = new DiaryInboxHelper(this);
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        if (checkBox.isChecked()) {
+            ContentValues values = new ContentValues();
+            values.put(DiaryContract.DiaryEntry.COLUMN_STAR, "checked");
+            String selection = DiaryContract.DiaryEntry._ID_MESSAGE + " LIKE ?";
+            String[] selectionArgs = {String.valueOf(my_id)};
+
+            int count = db.update(
+                    DiaryContract.DiaryEntry.TABLE_NAME_INBOX,
+                    values,
+                    selection,
+                    selectionArgs);
+            if (count != -1){
+                Toast.makeText(this, "Message Starred", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(this, "Ops!, try again", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else {
+            ContentValues values = new ContentValues();
+            values.put(DiaryContract.DiaryEntry.COLUMN_STAR, "unchecked");
+            String selection = DiaryContract.DiaryEntry._ID_MESSAGE + " LIKE ?";
+            String[] selectionArgs = {String.valueOf(my_id)};
+
+            int count = db.update(
+                    DiaryContract.DiaryEntry.TABLE_NAME_INBOX,
+                    values,
+                    selection,
+                    selectionArgs);
+            if (count != -1){
+                Toast.makeText(this, "Message Unstarred", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(this, "Ops!, try again", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public static Activity getInstanceHome(){
+        return activityHome;
     }
 }
