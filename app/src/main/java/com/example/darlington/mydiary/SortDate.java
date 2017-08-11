@@ -12,7 +12,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,8 +20,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.darlington.mydiary.diary.DiaryContract;
 import com.example.darlington.mydiary.diary.DiaryHelper;
@@ -31,14 +28,12 @@ import com.example.darlington.mydiary.diary.DiaryInboxHelper;
 
 public class SortDate extends AppCompatActivity {
 
-    private DatePicker datePicker;
     private Calendar calendar;
     private int year, month, day;
     private String date_required;
     String font;
     int text_size;
     String colour;
-    String name;
     ListView my_list;
     ArrayList<MyInbox> details = new ArrayList<MyInbox>();
     CustomDiaryAdapter adapter;
@@ -64,7 +59,6 @@ public class SortDate extends AppCompatActivity {
             try {
                 c.moveToFirst();
                 colour = c.getString(c.getColumnIndexOrThrow(DiaryContract.DiaryEntry.COLUMN_COLOUR));
-                name = c.getString(c.getColumnIndexOrThrow(DiaryContract.DiaryEntry.COLUMN_NAME));
                 font = c.getString(c.getColumnIndexOrThrow(DiaryContract.DiaryEntry.COLUMN_FONT));
                 text_size = c.getInt(c.getColumnIndexOrThrow(DiaryContract.DiaryEntry.COLUMN_FONT_SIZE));
             } finally {
@@ -98,13 +92,13 @@ public class SortDate extends AppCompatActivity {
             month = calendar.get(Calendar.MONTH);
             day = calendar.get(Calendar.DAY_OF_MONTH);
 
-            askDate(null);
+            askDate();
 
         }
     }
 
     @SuppressWarnings("deprecation")
-    public void askDate(View view) {
+    public void askDate() {
         showDialog(999);
     }
 
@@ -235,8 +229,8 @@ public class SortDate extends AppCompatActivity {
         } finally {
             int array_length = details.size();
             if (array_length == 0){
-                View empty = (View) findViewById(R.id.my_view);
-                View good = (View) findViewById(R.id.my_list);
+                View empty = findViewById(R.id.my_view);
+                View good = findViewById(R.id.my_list);
                 empty.setVisibility(View.VISIBLE);
                 good.setVisibility(View.GONE);
             }

@@ -36,14 +36,14 @@ public class Register extends AppCompatActivity {
         String register = extras.getString("Register");
 
         //get the layout for registration and password recovery
-        View v1 = (View) findViewById(R.id.register_layout);
-        View v2 = (View) findViewById(R.id.forgot_password__layout);
+        View v1 = findViewById(R.id.register_layout);
+        View v2 = findViewById(R.id.forgot_password__layout);
 
         //set visibility accordingly
         if (register.equals("register")) {
-            v1.setVisibility(v1.VISIBLE);
+            v1.setVisibility(View.VISIBLE);
         } else {
-            v2.setVisibility(v2.VISIBLE);
+            v2.setVisibility(View.VISIBLE);
         }
 
         //Get the text view and sex the font to angelina.

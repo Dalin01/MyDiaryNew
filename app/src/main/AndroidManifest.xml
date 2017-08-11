@@ -3,7 +3,12 @@
     package="com.example.darlington.mydiary">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-feature android:name="android.hardware.camera" android:required="true"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -100,6 +105,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.darlington.mydiary.Inbox" />
         </activity>
+        <activity
+            android:name=".MessageWithImage"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

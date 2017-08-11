@@ -1,85 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/container"
     android:padding="10dp"
     tools:context="com.example.darlington.mydiary.Home">
 
-    <TextView
-        android:id="@+id/home_sub"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="serif"
-        android:gravity="center_horizontal"
-        android:padding="5dp"
-        android:text="Subject"
-        android:textColor="@android:color/black"
-        android:textSize="20sp" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/home_cat"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:fontFamily="serif"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="Category"
-            android:textSize="16sp" />
-        <CheckBox
-            android:id="@+id/star"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            style="?android:attr/starStyle"
-            android:onClick="star"/>
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="3dp"
-        android:background="@drawable/edit_text_background">
-        <ScrollView
+        <LinearLayout
+            android:id="@+id/no_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <hani.momanii.supernova_emoji_library.Helper.EmojiconTextView
-                android:id="@+id/home_message"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+            <TextView
+                android:id="@+id/home_sub"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
-                android:text=""
+                android:gravity="center_horizontal"
+                android:padding="5dp"
+                android:text="Subject"
                 android:textColor="@android:color/black"
-                android:textSize="15sp" />
-        </ScrollView>
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"            >
+                <TextView
+                    android:id="@+id/home_cat"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="serif"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Category"
+                    android:textSize="16sp" />
+                <CheckBox
+                    android:id="@+id/star"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    style="?android:attr/starStyle"
+                    android:onClick="star"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/yes_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:visibility="gone">
+
+            <ImageButton
+                android:id="@+id/my_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/home_sub1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="serif"
+                    android:gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:text="Subject"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
+
+                <CheckBox
+                    android:id="@+id/star1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?android:attr/starStyle"
+                    android:onClick="starOne"
+                    android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="3dp"
+            android:background="@drawable/edit_text_background">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <com.example.darlington.mydiary.emoji.EmojiconTextView
+                    android:id="@+id/home_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="serif"
+                    android:text=""
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+            </ScrollView>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/home_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true" />
+
+            <TextView
+                android:id="@+id/home_date_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+
     </LinearLayout>
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/expanded_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp">
-
-        <TextView
-            android:id="@+id/home_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true" />
-
-        <TextView
-            android:id="@+id/home_date_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true" />
-    </RelativeLayout>
-
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:visibility="invisible"/>
+</FrameLayout>

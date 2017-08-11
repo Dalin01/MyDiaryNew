@@ -20,6 +20,23 @@
             android:icon="@drawable/colour"/>
     </group>
 
+    <item android:title="Update User's Details">
+        <menu>
+            <item
+                android:id="@+id/name"
+                android:title="Update name"
+                android:icon="@drawable/colour"/>
+            <item
+                android:id="@+id/pin"
+                android:title="Update pin"
+                android:icon="@drawable/category"/>
+            <item
+                android:id="@+id/answer"
+                android:title="Update recovery answer"
+                android:icon="@drawable/time"/>
+        </menu>
+    </item>
+
     <item android:title="Sort and Search">
         <menu>
             <item
@@ -56,7 +73,7 @@
                 android:title="Contact us"
                 android:icon="@drawable/ic_message_black"/>
             <item
-                android:id="@+id/nav_seend"
+                android:id="@+id/about"
                 android:title="About"
                 android:icon="@drawable/info"/>
             <item

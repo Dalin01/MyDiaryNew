@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.GravityCompat;
@@ -16,12 +17,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,8 +32,6 @@ import com.example.darlington.mydiary.diary.DiaryHelper;
 import com.example.darlington.mydiary.diary.DiaryInboxHelper;
 
 import java.util.ArrayList;
-
-import static android.support.design.R.attr.headerLayout;
 
 public class Inbox extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -50,6 +49,9 @@ public class Inbox extends AppCompatActivity implements NavigationView.OnNavigat
     String message_to_share = "I use this android app and it's pretty amazing. Do download and enjoy!";
     private String mActivityTitle;
 
+    private Boolean isFabOpen = false;
+    private FloatingActionButton fab,fab1,fab2;
+    private Animation fab_open,fab_close,rotate_forward,rotate_backward;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,8 +147,6 @@ public class Inbox extends AppCompatActivity implements NavigationView.OnNavigat
             }
         }
 
-
-
         {
             DiaryInboxHelper mDbHelper = new DiaryInboxHelper(this);
             SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -178,8 +178,8 @@ public class Inbox extends AppCompatActivity implements NavigationView.OnNavigat
             double count = cursor.getCount();
             int count_int = (int) count;
             if(count == 0){
-                View empty = (View) findViewById(R.id.empty);
-                View good = (View) findViewById(R.id.my_list);
+                View empty = findViewById(R.id.empty);
+                View good = findViewById(R.id.my_list);
                 empty.setVisibility(View.VISIBLE);
                 good.setVisibility(View.GONE);
             }
@@ -234,6 +234,31 @@ public class Inbox extends AppCompatActivity implements NavigationView.OnNavigat
                 cursor.close();
             }
 
+            fab = (FloatingActionButton)findViewById(R.id.fab);
+            fab1 = (FloatingActionButton)findViewById(R.id.fab1);
+            fab2 = (FloatingActionButton)findViewById(R.id.fab2);
+
+            fab1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(Inbox.this, Message.class);
+                    startActivity(i);
+                }
+            });
+
+            fab2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(Inbox.this, MessageWithImage.class);
+                    startActivity(i);
+                }
+            });
+
+            fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+            fab_close = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_close);
+            rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_foward);
+            rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_backward);
+
         }
 
         mActivityTitle = getTitle().toString();
@@ -265,6 +290,7 @@ public class Inbox extends AppCompatActivity implements NavigationView.OnNavigat
         navigationView.setNavigationItemSelectedListener(this);
 
     }
+
 
     @Override
     public void onBackPressed() {
@@ -311,7 +337,24 @@ public class Inbox extends AppCompatActivity implements NavigationView.OnNavigat
             DialogFragment fragment = new DialogCategory();
             fragment.show(getSupportFragmentManager(), "note");
             return true;
-        } else if (id == R.id.share) {
+        }
+        else if (id == R.id.about) {
+            DialogFragment fragment = new DialogAbout();
+            fragment.show(getSupportFragmentManager(), "note");
+            return true;
+        }else if (id == R.id.name) {
+            DialogFragment fragment = new DialogUpdateName();
+            fragment.show(getSupportFragmentManager(), "note");
+            return true;
+        }else if (id == R.id.pin) {
+            DialogFragment fragment = new DialogUpdatePin();
+            fragment.show(getSupportFragmentManager(), "note");
+            return true;
+        }else if (id == R.id.answer) {
+            DialogFragment fragment = new DialogUpdateAnswer();
+            fragment.show(getSupportFragmentManager(), "note");
+            return true;
+        }else if (id == R.id.share) {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");
             intent.putExtra(Intent.EXTRA_TEXT, message_to_share);
@@ -322,7 +365,17 @@ public class Inbox extends AppCompatActivity implements NavigationView.OnNavigat
         } else if (id == R.id.contact) {
             Intent mail = new Intent(Intent.ACTION_SENDTO);
             mail.setData(Uri.parse("mailto:somtodarlington@yahoo.com"));
-            mail.putExtra(Intent.EXTRA_SUBJECT, "Awesome Darlington");
+            mail.putExtra(Intent.EXTRA_SUBJECT, "My Diary: Contact");
+            mail.putExtra(Intent.EXTRA_TEXT, "");
+            // Verify that the intent will resolve to an activity
+            if (mail.resolveActivity(getPackageManager()) != null) {
+                startActivity(Intent.createChooser(mail, "Choose an email client from..."));
+            }
+        }
+        else if (id == R.id.help) {
+            Intent mail = new Intent(Intent.ACTION_SENDTO);
+            mail.setData(Uri.parse("mailto:somtodarlington@yahoo.com"));
+            mail.putExtra(Intent.EXTRA_SUBJECT, "My Diary: Help");
             mail.putExtra(Intent.EXTRA_TEXT, "");
             // Verify that the intent will resolve to an activity
             if (mail.resolveActivity(getPackageManager()) != null) {
@@ -383,8 +436,7 @@ public class Inbox extends AppCompatActivity implements NavigationView.OnNavigat
     }
 
     public void fab(View view){
-        Intent i = new Intent(this, Message.class);
-        startActivity(i);
+        animateFAB();
     }
 
     public void chatHead(){
@@ -405,6 +457,28 @@ public class Inbox extends AppCompatActivity implements NavigationView.OnNavigat
 
     public static Activity getInstanceInbox(){
         return activityInbox;
+    }
+
+    public void animateFAB(){
+
+        if(isFabOpen){
+
+            fab.startAnimation(rotate_backward);
+            fab1.startAnimation(fab_close);
+            fab2.startAnimation(fab_close);
+            fab1.setClickable(false);
+            fab2.setClickable(false);
+            isFabOpen = false;
+
+        } else {
+
+            fab.startAnimation(rotate_forward);
+            fab1.startAnimation(fab_open);
+            fab2.startAnimation(fab_open);
+            fab1.setClickable(true);
+            fab2.setClickable(true);
+            isFabOpen = true;
+        }
     }
 
 

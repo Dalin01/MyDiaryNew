@@ -19,11 +19,12 @@ import com.example.darlington.mydiary.diary.DiaryInboxHelper;
 
 public class DeleteCurrentDialog extends DialogFragment {
 
-    String message = "You are about to delete this current message." +
-            "\n\n\nIt can't be revoked";
+
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
+        String message = "You are about to delete this current message." +
+                "\n\n\nIt can't be revoked";
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Note:");
         builder.setMessage(message);
@@ -43,7 +44,7 @@ public class DeleteCurrentDialog extends DialogFragment {
     }
 
     //delete the message required using the specified where clause as guide.
-    public void delete(){
+    private void delete(){
         DiaryInboxHelper mDbHelper = new DiaryInboxHelper(getActivity());
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 

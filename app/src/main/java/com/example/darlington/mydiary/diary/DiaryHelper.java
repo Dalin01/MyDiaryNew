@@ -11,8 +11,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DiaryHelper extends SQLiteOpenHelper {
 
     // Schema to create the db if non exists or create a table
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "MyDiary.db";
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "MyDiary.db";
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + DiaryContract.DiaryEntry.TABLE_NAME + " (" +
                     DiaryContract.DiaryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +

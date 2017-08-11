@@ -79,14 +79,13 @@
                     android:orientation="horizontal"
                     android:layout_marginRight="5dp">
 
-                    <ImageView
+                    <!--<ImageView
                         android:id="@+id/emoji_btn"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
-                        android:padding="4dp"
-                        android:src="@drawable/smiley" />
+                        android:padding="4dp"/> -->
 
                     <EditText
                         android:id="@+id/subject"
@@ -105,14 +104,15 @@
                     android:paddingTop="5dp"
                     android:layout_marginRight="5dp">
 
-                    <ImageView
+                    <!--<ImageView
                         android:id="@+id/emoji_btn1"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
-                        android:padding="4dp"
-                        android:src="@drawable/smiley" />
+                        android:padding="4dp"/> -->
+
+
 
                     <EditText
                         android:id="@+id/location"
@@ -146,12 +146,12 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <ImageView
+                        <!--<ImageView
                             android:id="@+id/emoji_btn2"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:padding="4dp"
-                            android:src="@drawable/smiley" />
+                            android:padding="4dp" /> -->
+
                     </LinearLayout>
 
                     <ScrollView

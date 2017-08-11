@@ -9,63 +9,45 @@ import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
-import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
-import hani.momanii.supernova_emoji_library.Helper.EmojiconTextView;
 
 import com.example.darlington.mydiary.diary.DiaryContract;
 import com.example.darlington.mydiary.diary.DiaryHelper;
 import com.example.darlington.mydiary.diary.DiaryInboxHelper;
 
+
 import java.text.DateFormat;
 import java.util.Date;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.AlertDialog;
-
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
+import android.view.KeyEvent;
+import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.PopupWindow.OnDismissListener;
+import com.example.darlington.mydiary.emoji.Emojicon;
+import com.example.darlington.mydiary.emoji.EmojiconEditText;
+import com.example.darlington.mydiary.emoji.EmojiconGridView;
+import com.example.darlington.mydiary.emoji.EmojiconsPopup;
 
-import android.net.Uri;
-import android.provider.Settings;
+public class Message extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 
-public class Message extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-
-    EmojiconEditText subject;
-    EmojiconEditText location;
-    EmojiconEditText message;
+    EditText subject;
+    EditText location;
+    EditText message;
     String category = "Uncategorized";
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    EmojiconEditText emojiconEditText;
-    EmojiconTextView textView;
-    ImageView emojiImageView;
-    ImageView emojiImageView1;
-    ImageView emojiImageView2;
-    View rootView;
-    EmojIconActions emojIcon;
-    EmojIconActions emojIcon1;
-    EmojIconActions emojIcon2;
+
 
     String font;
-
-    public static final int MY_PERMISSIONS_REQUEST_CAMERA = 100;
-    public static final String ALLOW_KEY = "ALLOWED";
-    public static final String CAMERA_PREF = "camera_pref";
     String colour;
 
     @Override
@@ -88,32 +70,30 @@ public class Message extends AppCompatActivity implements AdapterView.OnItemSele
             try {
                 c.moveToFirst();
                 colour = c.getString(c.getColumnIndexOrThrow(DiaryContract.DiaryEntry.COLUMN_COLOUR));
-            }
-            finally {
+            } finally {
                 c.close();
             }
         }
-        if(colour.equals("colour 1")){
+        if (colour.equals("colour 1")) {
             setTheme(R.style.ThemeOne);
             if (Build.VERSION.SDK_INT >= 21) {
                 getWindow().setNavigationBarColor(getResources().getColor(R.color.theme_one));
                 getWindow().setStatusBarColor(getResources().getColor(R.color.theme_one));
             }
-        }
-        else if(colour.equals("colour 2")){
+        } else if (colour.equals("colour 2")) {
             setTheme(R.style.ThemeTwo);
             if (Build.VERSION.SDK_INT >= 21) {
                 getWindow().setNavigationBarColor(getResources().getColor(R.color.theme_two));
                 getWindow().setStatusBarColor(getResources().getColor(R.color.theme_two));
             }
-        }
-        else if(colour.equals("colour 3")){
+        } else if (colour.equals("colour 3")) {
             setTheme(R.style.ThemeThree);
             if (Build.VERSION.SDK_INT >= 21) {
                 getWindow().setNavigationBarColor(getResources().getColor(R.color.theme_three));
                 getWindow().setStatusBarColor(getResources().getColor(R.color.theme_three));
             }
         }
+
 
         setContentView(R.layout.activity_message);
 
@@ -128,66 +108,11 @@ public class Message extends AppCompatActivity implements AdapterView.OnItemSele
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
+        final View rootView = findViewById(R.id.root_view);
 
-        rootView = findViewById(R.id.root_view);
-
-        emojiImageView = (ImageView) findViewById(R.id.emoji_btn);
-        emojiImageView1 = (ImageView) findViewById(R.id.emoji_btn1);
-        emojiImageView2 = (ImageView) findViewById(R.id.emoji_btn2);
-
-        subject = (EmojiconEditText) findViewById(R.id.subject);
-        message = (EmojiconEditText) findViewById(R.id.body);
-        location = (EmojiconEditText) findViewById(R.id.location);
-
-
-        emojIcon = new EmojIconActions(this, rootView, subject, emojiImageView);
-        emojIcon1 = new EmojIconActions(this, rootView, location, emojiImageView1);
-        emojIcon2 = new EmojIconActions(this, rootView, message, emojiImageView2);
-
-
-        emojIcon.ShowEmojIcon();
-        emojIcon.setIconsIds(R.drawable.ic_action_keyboard, R.drawable.smiley);
-        emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
-            @Override
-            public void onKeyboardOpen() {
-                Log.e(TAG, "Keyboard opened!");
-            }
-
-            @Override
-            public void onKeyboardClose() {
-                Log.e(TAG, "Keyboard closed");
-            }
-        });
-
-        emojIcon1.ShowEmojIcon();
-        emojIcon1.setIconsIds(R.drawable.ic_action_keyboard, R.drawable.smiley);
-        emojIcon1.setKeyboardListener(new EmojIconActions.KeyboardListener() {
-            @Override
-            public void onKeyboardOpen() {
-                Log.e(TAG, "Keyboard opened!");
-            }
-
-            @Override
-            public void onKeyboardClose() {
-                Log.e(TAG, "Keyboard closed");
-            }
-        });
-
-
-        emojIcon2.ShowEmojIcon();
-        emojIcon2.setIconsIds(R.drawable.ic_action_keyboard, R.drawable.smiley);
-        emojIcon2.setKeyboardListener(new EmojIconActions.KeyboardListener() {
-            @Override
-            public void onKeyboardOpen() {
-                Log.e(TAG, "Keyboard opened!");
-            }
-
-            @Override
-            public void onKeyboardClose() {
-                Log.e(TAG, "Keyboard closed");
-            }
-        });
-
+        subject = (EditText) findViewById(R.id.subject);
+        message = (EditText) findViewById(R.id.body);
+        location = (EditText) findViewById(R.id.location);
         {
             DiaryHelper mDbHelper1 = new DiaryHelper(this);
             SQLiteDatabase db1 = mDbHelper1.getReadableDatabase();
@@ -218,48 +143,143 @@ public class Message extends AppCompatActivity implements AdapterView.OnItemSele
                 location.setTextSize(text_size);
                 message.setTypeface(typeface);
                 message.setTextSize(text_size);
-            }
-            finally {
+            } finally {
                 c.close();
             }
         }
 
+        final EmojiconEditText emojiconEditText = (EmojiconEditText) findViewById(R.id.body);
+        final ImageView emojiButton = (ImageView) findViewById(R.id.emoji_btn);
+        // Give the topmost view of your activity layout hierarchy. This will be used to measure soft keyboard height
+        final EmojiconsPopup popup = new EmojiconsPopup(rootView, this);
+        //Will automatically set size according to the soft keyboard size
+        popup.setSizeForSoftKeyboard();
 
+        //If the emoji popup is dismissed, change emojiButton to smiley icon
+        popup.setOnDismissListener(new OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                changeEmojiKeyboardIcon(emojiButton, R.drawable.smiley);
+            }
+        });
+
+        //If the text keyboard closes, also dismiss the emoji popup
+        popup.setOnSoftKeyboardOpenCloseListener(new EmojiconsPopup.OnSoftKeyboardOpenCloseListener() {
+
+            @Override
+            public void onKeyboardOpen(int keyBoardHeight) {
+
+            }
+
+            @Override
+            public void onKeyboardClose() {
+                if (popup.isShowing())
+                    popup.dismiss();
+            }
+        });
+
+        //On emoji clicked, add it to edittext
+        popup.setOnEmojiconClickedListener(new EmojiconGridView.OnEmojiconClickedListener() {
+
+            @Override
+            public void onEmojiconClicked(Emojicon emojicon) {
+                if (emojiconEditText == null || emojicon == null) {
+                    return;
+                }
+
+                int start = emojiconEditText.getSelectionStart();
+                int end = emojiconEditText.getSelectionEnd();
+                if (start < 0) {
+                    emojiconEditText.append(emojicon.getEmoji());
+                } else {
+                    emojiconEditText.getText().replace(Math.min(start, end),
+                            Math.max(start, end), emojicon.getEmoji(), 0,
+                            emojicon.getEmoji().length());
+                }
+            }
+        });
+
+        //On backspace clicked, emulate the KEYCODE_DEL key event
+        popup.setOnEmojiconBackspaceClickedListener(new EmojiconsPopup.OnEmojiconBackspaceClickedListener() {
+
+            @Override
+            public void onEmojiconBackspaceClicked(View v) {
+                KeyEvent event = new KeyEvent(
+                        0, 0, 0, KeyEvent.KEYCODE_DEL, 0, 0, 0, 0, KeyEvent.KEYCODE_ENDCALL);
+                emojiconEditText.dispatchKeyEvent(event);
+            }
+        });
+
+        // To toggle between text keyboard and emoji keyboard keyboard(Popup)
+        emojiButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                //If popup is not showing => emoji keyboard is not visible, we need to show it
+                if (!popup.isShowing()) {
+
+                    //If keyboard is visible, simply show the emoji popup
+                    if (popup.isKeyBoardOpen()) {
+                        popup.showAtBottom();
+                        changeEmojiKeyboardIcon(emojiButton, R.drawable.ic_action_keyboard);
+                    }
+
+                    //else, open the text keyboard first and immediately after that show the emoji popup
+                    else {
+                        emojiconEditText.setFocusableInTouchMode(true);
+                        emojiconEditText.requestFocus();
+                        popup.showAtBottomPending();
+                        final InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputMethodManager.showSoftInput(emojiconEditText, InputMethodManager.SHOW_IMPLICIT);
+                        changeEmojiKeyboardIcon(emojiButton, R.drawable.ic_action_keyboard);
+                    }
+                }
+
+                //If popup is showing, simply dismiss it to show the undelying text keyboard
+                else {
+                    popup.dismiss();
+                }
+            }
+        });
+    }
+
+    private void changeEmojiKeyboardIcon(ImageView iconToBeChanged, int drawableResourceId) {
+        iconToBeChanged.setImageResource(drawableResourceId);
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // On selecting a spinner item
-        String item_from_spinner = parent.getItemAtPosition(position).toString();
-        category = item_from_spinner;
+        category = parent.getItemAtPosition(position).toString();
     }
+
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO Auto-generated method stub
         category = "Uncategorized";
     }
 
     public void save(View view) {
-        subject = (EmojiconEditText) findViewById(R.id.subject);
-        message = (EmojiconEditText) findViewById(R.id.body);
-        location = (EmojiconEditText) findViewById(R.id.location);
+        subject = (EditText) findViewById(R.id.subject);
+        message = (EditText) findViewById(R.id.body);
+        location = (EditText) findViewById(R.id.location);
+
 
         String my_subject = subject.getText().toString();
         String my_location = location.getText().toString();
         String my_message = message.getText().toString();
 
 
-        if (my_subject.trim().equals("") || my_location.trim().equals("") || my_message.trim().equals("")){
-            if (my_subject.trim().equals("")){
+        if (my_subject.trim().equals("") || my_location.trim().equals("") || my_message.trim().equals("")) {
+            if (my_subject.trim().equals("")) {
                 subject.setError("Please write a Subject");//it gives user to info message
-            }
-            else if(my_location.trim().equals("")){
+            } else if (my_location.trim().equals("")) {
                 location.setError("Location cannot be empty");//it gives user to info message
-            }
-            else if(my_message.trim().equals("")){
+            } else if (my_message.trim().equals("")) {
                 message.setError("Please write your message");//it gives user to info message
             }
-        }
-        else{
+        } else {
             String current_date_and_time = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date());
 
             DiaryInboxHelper mDbHelper = new DiaryInboxHelper(this);
@@ -290,155 +310,6 @@ public class Message extends AppCompatActivity implements AdapterView.OnItemSele
                         .setAction("Action", null).show();
             }
         }
-    }
-
-
-    public void cam(View view){
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            if (getFromPref(this, ALLOW_KEY)) {
-                showSettingsAlert();
-            } else if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.CAMERA)
-
-                    != PackageManager.PERMISSION_GRANTED) {
-
-                // Should we show an explanation?
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.CAMERA)) {
-                    showAlert();
-                } else {
-                    // No explanation needed, we can request the permission.
-                    ActivityCompat.requestPermissions(this,
-                            new String[]{Manifest.permission.CAMERA},
-                            MY_PERMISSIONS_REQUEST_CAMERA);
-                }
-            }
-        } else {
-            openCamera();
-        }
-    }
-
-    public static void saveToPreferences(Context context, String key, Boolean allowed) {
-        SharedPreferences myPrefs = context.getSharedPreferences(CAMERA_PREF,
-                Context.MODE_PRIVATE);
-        SharedPreferences.Editor prefsEditor = myPrefs.edit();
-        prefsEditor.putBoolean(key, allowed);
-        prefsEditor.commit();
-    }
-
-    public static Boolean getFromPref(Context context, String key) {
-        SharedPreferences myPrefs = context.getSharedPreferences(CAMERA_PREF,
-                Context.MODE_PRIVATE);
-        return (myPrefs.getBoolean(key, false));
-    }
-
-    private void showAlert() {
-        AlertDialog alertDialog = new AlertDialog.Builder(Message.this).create();
-        alertDialog.setTitle("Alert");
-        alertDialog.setMessage("App needs to access the Camera.");
-
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "DONT ALLOW",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        finish();
-                    }
-                });
-
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "ALLOW",
-                new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        ActivityCompat.requestPermissions(Message.this,
-                                new String[]{Manifest.permission.CAMERA},
-                                MY_PERMISSIONS_REQUEST_CAMERA);
-                    }
-                });
-        alertDialog.show();
-    }
-
-    private void showSettingsAlert() {
-        AlertDialog alertDialog = new AlertDialog.Builder(Message.this).create();
-        alertDialog.setTitle("Alert");
-        alertDialog.setMessage("App needs to access the Camera.");
-
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "DONT ALLOW",
-                new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        //finish();
-                    }
-                });
-
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "SETTINGS",
-                new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        startInstalledAppDetailsActivity(Message.this);
-                    }
-                });
-
-        alertDialog.show();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_CAMERA: {
-                for (int i = 0, len = permissions.length; i < len; i++) {
-                    String permission = permissions[i];
-
-                    if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
-                        boolean
-                                showRationale =
-                                ActivityCompat.shouldShowRequestPermissionRationale(
-                                        this, permission);
-
-                        if (showRationale) {
-                            showAlert();
-                        } else if (!showRationale) {
-                            // user denied flagging NEVER ASK AGAIN
-                            // you can either enable some fall back,
-                            // disable features of your app
-                            // or open another dialog explaining
-                            // again the permission and directing to
-                            // the app setting
-                            saveToPreferences(Message.this, ALLOW_KEY, true);
-                        }
-                    }
-                }
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    public static void startInstalledAppDetailsActivity(final Activity context) {
-        if (context == null) {
-            return;
-        }
-        final Intent i = new Intent();
-        i.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        i.addCategory(Intent.CATEGORY_DEFAULT);
-        i.setData(Uri.parse("package:" + context.getPackageName()));
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-        context.startActivity(i);
-    }
-
-    private void openCamera() {
-        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        startActivity(intent);
     }
 
 }

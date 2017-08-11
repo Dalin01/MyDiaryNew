@@ -18,7 +18,7 @@ import com.example.darlington.mydiary.diary.DiaryHelper;
 
 public class DialogColour extends DialogFragment {
 
-    final CharSequence[] fonts = {"DEFAULT", "COLOUR 1", "COLOUR 2", "COLOUR 3"};
+    final CharSequence[] fonts = {"DEFAULT", "PURPLE", "GREEN", "PINK"};
     String my_font_colour = "default";
     String font;
 
@@ -54,18 +54,18 @@ public class DialogColour extends DialogFragment {
         return builder.create();
     }
 
-    public void getFont(){
+    private void getFont(){
         if(font != null){
             if (font.equals("DEFAULT")){
                 my_font_colour = "default";
             }
-            else if (font.equals("COLOUR 1")){
+            else if (font.equals("PURPLE")){
                 my_font_colour = "colour 1";
             }
-            else if (font.equals("COLOUR 2")){
+            else if (font.equals("GREEN")){
                 my_font_colour = "colour 2";
             }
-            else if (font.equals("COLOUR 3")){
+            else if (font.equals("PINK")){
                 my_font_colour = "colour 3";
             }
 

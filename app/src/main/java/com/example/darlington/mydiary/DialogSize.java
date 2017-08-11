@@ -52,16 +52,18 @@ public class DialogSize extends DialogFragment {
         return builder.create();
     }
 
-    public void getFontSize(){
+    private void getFontSize(){
         if(font != null){
-            if (font.equals("DEFAULT")){
-                my_font_size = 17;
-            }
-            else if (font.equals("MEDIUM")){
-                my_font_size = 19;
-            }
-            else if (font.equals("LARGE")){
-                my_font_size = 21;
+            switch (font) {
+                case "DEFAULT":
+                    my_font_size = 17;
+                    break;
+                case "MEDIUM":
+                    my_font_size = 19;
+                    break;
+                case "LARGE":
+                    my_font_size = 21;
+                    break;
             }
             DiaryHelper mDbHelper = new DiaryHelper(getActivity());
             SQLiteDatabase db = mDbHelper.getReadableDatabase();

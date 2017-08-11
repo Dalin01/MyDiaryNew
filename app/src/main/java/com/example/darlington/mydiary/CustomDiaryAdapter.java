@@ -8,7 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -19,8 +22,12 @@ import java.util.ArrayList;
 
 public class CustomDiaryAdapter extends ArrayAdapter<MyInbox> {
 
+    private Context context;
+
     public CustomDiaryAdapter(Context context, ArrayList<MyInbox> myInbox) {
         super(context, 0, myInbox);
+        this.context = context;
+
     }
 
     @Override
@@ -41,6 +48,7 @@ public class CustomDiaryAdapter extends ArrayAdapter<MyInbox> {
         TextView my_time = (TextView) listItemView.findViewById(R.id.time);
         TextView my_date = (TextView) listItemView.findViewById(R.id.date);
         TextView my_category = (TextView) listItemView.findViewById(R.id.my_category);
+        ImageView my_category_image = (ImageView) listItemView.findViewById(R.id.my_category_image);
 
         //call the get methods in the instance of the class current_message and
         //save the results in corresponding variables
@@ -52,10 +60,19 @@ public class CustomDiaryAdapter extends ArrayAdapter<MyInbox> {
         String font = current_message.getFont();
         int text_size = current_message.getText_size();
 
-        // set the drawable (circle) in the view- color also
-        GradientDrawable magnitudeCircle = (GradientDrawable) my_category.getBackground();
-        int magnitudeColor = getCategoryColor(category);
-        magnitudeCircle.setColor(magnitudeColor);
+        if (category.equals("Work") || category.equals("School") || category.equals("Personal") || category.equals("Family") || category.equals("Study") ||
+                category.equals("Research") || category.equals("Uncategorized")) {
+            my_category_image.setVisibility(View.GONE);
+            my_category.setVisibility(View.VISIBLE);
+            // set the drawable (circle) in the view- color also
+            GradientDrawable magnitudeCircle = (GradientDrawable) my_category.getBackground();
+            int magnitudeColor = getCategoryColor(category);
+            magnitudeCircle.setColor(magnitudeColor);
+        } else {
+            my_category_image.setVisibility(View.VISIBLE);
+            my_category.setVisibility(View.GONE);
+            setFullImageFromFilePath(category, my_category_image);
+        }
 
         //using split method to generate an array of the item in the date_time variable
         //and then save the items in the array in corresponding variables.
@@ -88,10 +105,25 @@ public class CustomDiaryAdapter extends ArrayAdapter<MyInbox> {
 
     }
 
+    /**
+     * Scale the photo down and fit it to our image views.
+     *
+     * "Drastically increases performance" to set images using this technique.
+     * Read more:http://developer.android.com/training/camera/photobasics.html
+     */
+    private void setFullImageFromFilePath(String imagePath, ImageView imageView) {
+        //I used glide library to display the profile image
+        Glide.with(context)
+                .load(imagePath)
+                .asBitmap()
+                .placeholder(R.drawable.bck)
+                .into(imageView);
+    }
+
 
     // method that set the color for the drawable based on the category
     //selected and displays on the view
-    public int getCategoryColor(String cat){
+    private int getCategoryColor(String cat) {
         int magnitudeColorResourceId;
         switch (cat) {
             case "Work":

@@ -12,8 +12,6 @@ import android.widget.Toast;
 import com.example.darlington.mydiary.diary.DiaryContract;
 import com.example.darlington.mydiary.diary.DiaryHelper;
 
-import java.util.ArrayList;
-
 /**
  * Created by DARLINGTON on 7/3/2017.
  */
@@ -61,31 +59,33 @@ public class DialogFonts extends DialogFragment {
         return builder.create();
     }
 
-    public void getFont(){
+    private void getFont(){
         if (font != null) {
-            if (font.equals("DEFAULT")){
-                my_font = "fonts/roboto_regular.otf";
-            }
-            else if (font.equals("ANGELINA")){
-                my_font = "fonts/angelina.TTF";
-            }
-            else if (font.equals("PETBONE")){
-                my_font = "fonts/petbone.ttf";
-            }
-            else if (font.equals("COOTER CANDY")){
-                my_font = "fonts/cooter_candy.ttf";
-            }
-            else if (font.equals("KBERRY")){
-                my_font = "fonts/kberry.ttf";
-            }
-            else if (font.equals("ROMANS")){
-                my_font = "fonts/romans.ttf";
-            }
-            else if (font.equals("TACO BELL")){
-                my_font = "fonts/taco_bell.ttf";
-            }
-            else if (font.equals("TWIN MARKER")){
-                my_font = "fonts/twinmarker.ttf";
+            switch (font) {
+                case "DEFAULT":
+                    my_font = "fonts/roboto_regular.otf";
+                    break;
+                case "ANGELINA":
+                    my_font = "fonts/angelina.TTF";
+                    break;
+                case "PETBONE":
+                    my_font = "fonts/petbone.ttf";
+                    break;
+                case "COOTER CANDY":
+                    my_font = "fonts/cooter_candy.ttf";
+                    break;
+                case "KBERRY":
+                    my_font = "fonts/kberry.ttf";
+                    break;
+                case "ROMANS":
+                    my_font = "fonts/romans.ttf";
+                    break;
+                case "TACO BELL":
+                    my_font = "fonts/taco_bell.ttf";
+                    break;
+                case "TWIN MARKER":
+                    my_font = "fonts/twinmarker.ttf";
+                    break;
             }
 
             DiaryHelper mDbHelper = new DiaryHelper(getActivity());

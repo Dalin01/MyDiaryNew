@@ -1,6 +1,8 @@
 package com.example.darlington.mydiary.diary;
 
 import android.provider.BaseColumns;
+import android.text.Editable;
+import android.text.Spanned;
 
 /**
  * Created by Darlington on 6/17/2017.
@@ -9,10 +11,11 @@ import android.provider.BaseColumns;
  */
 
 public final class DiaryContract {
-    DiaryContract(){}
+
 
     public static class DiaryEntry implements BaseColumns
     {
+
         //Table one column names
         public static final String _ID = BaseColumns._ID;
         public static final String TABLE_NAME = "user";

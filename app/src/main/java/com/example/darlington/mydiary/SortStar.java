@@ -129,8 +129,8 @@ public class SortStar extends AppCompatActivity {
             double count = cursor.getCount();
             int count_int = (int) count;
             if (count == 0) {
-                View empty = (View) findViewById(R.id.empty);
-                View good = (View) findViewById(R.id.my_list);
+                View empty = findViewById(R.id.empty);
+                View good = findViewById(R.id.my_list);
                 empty.setVisibility(View.VISIBLE);
                 good.setVisibility(View.GONE);
             }

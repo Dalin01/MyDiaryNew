@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="@drawable/bck">
+    <LinearLayout
+        android:id="@+id/ffood"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="40dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter Answer"
+            android:textColor="@android:color/white" />
+
+        <EditText
+            android:id="@+id/ffood_new"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="What is your favourite food?"
+            android:gravity="center"
+            android:textColorHint="@android:color/holo_blue_light"
+            android:textColor="@android:color/white"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Enter Pin"
+            android:textColor="@android:color/white" />
+
+        <EditText
+            android:id="@+id/old_pin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Pin"
+            android:gravity="center"
+            android:textColorHint="@android:color/holo_blue_light"
+            android:inputType="numberPassword"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -46,7 +46,7 @@ public class DialogCategory extends DialogFragment {
         return builder.create();
 }
 
-    public void getCategory() {
+    private void getCategory() {
         Intent i = new Intent(getActivity(), Sort.class);
         if(category != null){
             i.putExtra("sort", category);
